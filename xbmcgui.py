@@ -8,16 +8,39 @@ GUI functions on Kodi
 Offers classes and functions that manipulate the
 Graphical User Interface through windows, dialogs, and various control widgets.
 """
+#vl.maksime
+from __future__ import unicode_literals
+#
 import sys
-from typing import Union, List, Dict, Tuple
+#vl.maksime
+import xbmc as _xbmc
+from future.utils import PY26, PY27, PY3
+
+if not PY26:
+#
+    from typing import Union, List, Dict, Tuple
 from xbmc import InfoTagVideo, InfoTagMusic
 
 __kodistubs__ = True
 
-int_type = Union[int, long]
-str_type = Union[str, unicode]
+#vl.maksime
+if PY3:
+    int_type = int
+    str_type = str
+    
+    INT_MAX = sys.maxsize
+elif PY27:
+#
+    int_type = Union[int, long]
+    str_type = Union[str, unicode]
 
-INT_MAX = sys.maxint
+#vl.maksime
+if PY3:
+    INT_MAX = sys.maxsize
+else:
+#
+    INT_MAX = sys.maxint
+
 ACTION_ANALOG_FORWARD = 113
 ACTION_ANALOG_MOVE = 49
 ACTION_ANALOG_MOVE_X_LEFT = 601
@@ -1118,7 +1141,10 @@ class ControlList(Control):
             pos = cList.getSelectedPosition()
             ...
         """
-        return 0L
+        #vl.maksime
+        #return 0L
+        return 0
+        #
     
     def getSelectedItem(self):
         # type: () -> ListItem
@@ -1198,7 +1224,10 @@ class ControlList(Control):
             cnt = cList.size()
             ...
         """
-        return 0L
+        #vl.maksime
+        #return 0L
+        return 0
+        #
     
     def getItemHeight(self):
         # type: () -> long
@@ -1213,7 +1242,10 @@ class ControlList(Control):
             item_height = self.cList.getItemHeight()
             ...
         """
-        return 0L
+        #vl.maksime
+        #return 0L
+        return 0
+        #
     
     def getSpace(self):
         # type: () -> long
@@ -1228,7 +1260,10 @@ class ControlList(Control):
             gap = self.cList.getSpace()
             ...
         """
-        return 0L
+        #vl.maksime
+        #return 0L
+        return 0
+        #
     
     def getListItem(self, index):
         # type: (int) -> ListItem
@@ -2711,6 +2746,24 @@ class ListItem(object):
     
     def __init__(self, label="", label2="", iconImage="", thumbnailImage="", path=""):
         # type: (str_type, str_type, str_type, str_type, str_type) -> None
+
+        #vl.maksime
+        self._label = label
+        self._label2 = label2
+        self._iconImage = iconImage
+        self._thumbnailImage = thumbnailImage
+        self._path = path
+        
+        self._properties = {}
+        
+        params = []
+        if label: params.append('label={0}'.format(label))
+        if label2: params.append('label2={0}'.format(label2))
+        if iconImage: params.append('iconImage={0}'.format(iconImage))
+        if thumbnailImage: params.append('thumbnailImage={0}'.format(thumbnailImage))
+        if path: params.append('path={0}'.format(path))
+        _xbmc.log('Created ListItem({0})'.format(', '.join(params)))
+        #
         pass
     
     def getLabel(self):
@@ -2759,6 +2812,10 @@ class ListItem(object):
             listitem.setLabel('Casino Royale')
             ...
         """
+
+        #vl.maksime
+        _xbmc.log('{0}: setLabel(label={1})'.format(self, label))
+        #
         pass
     
     def setLabel2(self, label):
@@ -2775,6 +2832,10 @@ class ListItem(object):
             listitem.setLabel2('Casino Royale')
             ...
         """
+
+        #vl.maksime
+        _xbmc.log('{0}: setLabel2(label2={1})'.format(self, label2))
+        #
         pass
     
     def setIconImage(self, iconImage):
@@ -3235,6 +3296,10 @@ class ListItem(object):
             listitem.addStreamInfo('video', ``'codec': 'h264', 'width' : 1280``)
             ...
         """
+
+        #vl.maksime
+        _xbmc.log('{0}: addStreamInfo(cType={1}, dictionary={2})'.format(self, cType, dictionary))
+        #
         pass
     
     def addContextMenuItems(self, items, replaceItems=False):
@@ -3290,6 +3355,10 @@ class ListItem(object):
             listitem.setProperty('StartOffset', '256.4')
             ...
         """
+
+        #vl.maksime
+        _xbmc.log('{0}: setProperty(key={1}, value={2})'.format(self, key, value))
+        #
         pass
     
     def getProperty(self, key):
@@ -3326,6 +3395,11 @@ class ListItem(object):
             listitem.setPath(path='/path/to/some/file.ext')
             ...
         """
+
+        #vl.maksime
+        _xbmc.log('{0}: setPath({1})'.format(self, path))
+        self._path = path
+        #
         pass
     
     def setMimeType(self, mimetype):
@@ -3422,6 +3496,10 @@ class ListItem(object):
         New function added. 
         """
         return InfoTagMusic()
+
+    #vl.maksime
+    def __str__(self):
+        return 'ListItem(label={0})'.format(self._label)
     
 
 class Action(object):
@@ -3459,7 +3537,10 @@ class Action(object):
                     print('action recieved: previous')
             ..
         """
-        return 0L
+        #vl.maksime
+        #return 0L
+        return 0
+        #
     
     def getButtonCode(self):
         # type: () -> long
@@ -3468,7 +3549,10 @@ class Action(object):
 
         :return: [integer] button code 
         """
-        return 0L
+        #vl.maksime
+        #return 0L
+        return 0
+        #
     
     def getAmount1(self):
         # type: () -> float
@@ -3523,6 +3607,12 @@ class Window(object):
     
     def __init__(self, existingWindowId=-1):
         # type: (int) -> None
+
+        #vlmaksime
+        self._id = existingWindowId
+        self._properties = {}
+        _xbmc.log('Created {0}'.format(self))
+        #
         pass
     
     def show(self):
@@ -3581,7 +3671,10 @@ class Window(object):
         :raises SystemError: On Internal error 
         :raises RuntimeError: If no control has focus
         """
-        return 0L
+        #vl.maksime
+        #return 0L
+        return 0
+        #
     
     def removeControl(self, pControl):
         # type: (Control) -> None
@@ -3616,7 +3709,10 @@ class Window(object):
 
         :return: Screen height 
         """
-        return 0L
+        #vl.maksime
+        #return 0L
+        return 0
+        #
     
     def getWidth(self):
         # type: () -> long
@@ -3625,7 +3721,10 @@ class Window(object):
 
         :return: Screen width 
         """
-        return 0L
+        #vl.maksime
+        #return 0L
+        return 0
+        #
     
     def getResolution(self):
         # type: () -> long
@@ -3649,7 +3748,10 @@ class Window(object):
         9       PAL60 16:9 (720x480) 
         ======  =====================
         """
-        return 0L
+        #vl.maksime
+        #return 0L
+        return 0
+        #
     
     def setCoordinateResolution(self, res):
         # type: (int_type) -> None
@@ -3706,6 +3808,11 @@ class Window(object):
             win.setProperty('Category', 'Newest')
             ..
         """
+
+        #vl.maksime
+        _xbmc.log('{0}: setProperty({1}, {2})'.format(self, key, value))
+        self._properties[key] = value
+        #
         pass
     
     def getProperty(self, key):
@@ -3726,6 +3833,12 @@ class Window(object):
             category = win.getProperty('Category')
             ..
         """
+
+        #vl.maksime
+        result = self._properties.get(key, '')
+        _xbmc.log('{0}: getProperty({1}) -> {2}'.format(self, key, result))
+        return result
+        #
         return ""
     
     def clearProperty(self, key):
@@ -3746,6 +3859,11 @@ class Window(object):
             win.clearProperty('Category')
             ..
         """
+
+        #vl.maksime
+        _xbmc.log('{0}: clearProperty({1}, {2})'.format(self, key))
+        del self._properties[key]
+        #
         pass
     
     def clearProperties(self):
@@ -3845,6 +3963,10 @@ class Window(object):
         the Control functions
         """
         return Control()
+
+    #vl.maksime
+    def __str__(self):
+        return 'Window(id={0})'.format(self._id)
     
 
 class WindowDialog(Window):
@@ -4150,7 +4272,10 @@ def getCurrentWindowId():
         wid = xbmcgui.getCurrentWindowId()
         ..
     """
-    return 0L
+    #vl.maksime
+    #return 0L
+    return 0
+    #
 
 
 def getCurrentWindowDialogId():
@@ -4166,4 +4291,7 @@ def getCurrentWindowDialogId():
         wid = xbmcgui.getCurrentWindowDialogId()
         ..
     """
-    return 0L
+    #vl.maksime
+    #return 0L
+    return 0
+    #

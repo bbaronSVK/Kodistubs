@@ -10,12 +10,29 @@ information about the media currently playing and that allow manipulation of
 the media player (such as starting a new song). You can also find system
 information using the functions available in this library.
 """
-from typing import Union, List, Tuple, Any
+#vl.maksime
+from __future__ import unicode_literals
+import re
+import os
+from future.utils import PY26, PY27, PY3
+
+if not PY26:
+#
+    from typing import Union, List, Tuple, Any
 
 __kodistubs__ = True
 
-int_type = Union[int, long]
-str_type = Union[str, unicode]
+#vl.maksime
+
+_log_level = 0
+
+if PY3:
+    int_type = int
+    str_type = str
+elif PY27:
+#
+    int_type = Union[int, long]
+    str_type = Union[str, unicode]
 
 DRIVE_NOT_READY = 1
 ENGLISH_NAME = 2
@@ -1673,6 +1690,16 @@ def log(msg, level=LOGDEBUG):
         xbmc.log(msg='This is a test string.', level=xbmc.LOGDEBUG);
         ..
     """
+
+    #vl.maksime
+    
+    if _log_level == 1 \
+      or _log_level == 0 and level in [LOGNOTICE, LOGERROR, LOGSEVERE, LOGFATAL]:
+        _levels = ['DEBUG', 'INFO', 'NOTICE', 'WARNING', 'ERROR', 'SEVERE', 'FATAL', 'NONE']
+        _level = _levels[level]
+        
+        print('{0}: {1}'.format(_level, msg))
+    #
     pass
 
 
@@ -1883,7 +1910,11 @@ def getDVDState():
         dvdstate = xbmc.getDVDState()
         ..
     """
-    return 0L
+
+    #vl.maksime
+    #return 0L
+    return 0
+    #
 
 
 def getFreeMem():
@@ -1899,7 +1930,11 @@ def getFreeMem():
         freemem = xbmc.getFreeMem()
         ..
     """
-    return 0L
+    #vl.maksime
+    #return 0L
+    return 0
+    #
+
 
 
 def getInfoLabel(cLine):
@@ -2090,6 +2125,11 @@ def translatePath(path):
         fpath = xbmc.translatePath('special://masterprofile/script_data')
         ..
     """
+
+    #vl.maksime
+    log('xbmc.translatePath(path={0}) -> {0}'.format(path))
+    return path
+    #
     return ""
 
 
@@ -2306,3 +2346,27 @@ def convertLanguage(language, format):
         ..
     """
     return ""
+
+#vl.maksime
+def _set_log_level(level):
+    global _log_level
+    _log_level = level
+    
+def _parse_po(strings_po):
+    ui_strings = {}
+
+    if os.path.exists(strings_po):
+        with open(strings_po, 'rb') as fo:
+            raw_strings = fo.read()
+            strings = raw_strings.decode('utf-8').split('\n')
+    else:
+        return ui_strings
+    
+    string_id = None
+    for string in strings:
+        if string_id is None and 'msgctxt' in string:
+            string_id = int(re.search(r'"#(\d+)"', string, re.U).group(1))
+        elif string_id is not None and 'msgid' in string:
+            ui_strings[string_id] = re.search(r'"(.*?)"', string, re.U).group(1)
+            string_id = None
+    return ui_strings

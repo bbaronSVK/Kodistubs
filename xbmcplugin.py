@@ -10,12 +10,24 @@ developer to present information through Kodi's standard menu structure. While
 plugins don't have the same flexibility as scripts, they boast significantly
 quicker development time and a more consistent user experience.
 """
-from typing import List, Tuple, Union
+#vl.maksime
+from __future__ import unicode_literals
+import xbmc as _xbmc
+from future.utils import PY26, PY27, PY3
+
+if not PY26:
+#
+    from typing import List, Tuple, Union
 from xbmcgui import ListItem
 
 __kodistubs__ = True
 
-str_type = Union[str, unicode]
+#vl.maksime
+if PY3:
+    str_type = str
+elif PY27:
+#
+    str_type = Union[str, unicode]
 
 SORT_METHOD_ALBUM = 14
 SORT_METHOD_ALBUM_IGNORE_THE = 15
@@ -86,6 +98,10 @@ def addDirectoryItem(handle, url, listitem, isFolder=False, totalItems=0):
         if not xbmcplugin.addDirectoryItem(int(sys.argv[1]), 'F:\\Trailers\\300.mov', listitem, totalItems=50): break
         ..
     """
+
+    #vl.maksime
+    _xbmc.log('xbmcplugin.addDirectoryItem(url={0}, listitem={1}, isFolder={2}, totalItems={3})'.format(url, listitem, isFolder, totalItems))
+    #
     return True
 
 
@@ -132,6 +148,14 @@ def endOfDirectory(handle, succeeded=True, updateListing=False, cacheToDisc=True
         xbmcplugin.endOfDirectory(int(sys.argv[1]), cacheToDisc=False)
         ..
     """
+
+    #vl.maksime
+    params = []
+    if succeeded: params.append('succeeded={0}'.format(succeeded))
+    if updateListing: params.append('updateListing={0}'.format(updateListing))
+    if cacheToDisc: params.append('cacheToDisc={0}'.format(cacheToDisc))
+    _xbmc.log('xbmcplugin.endOfDirectory({0})'.format(', '.join(params)))
+    #
     pass
 
 
@@ -250,6 +274,12 @@ def addSortMethod(handle, sortMethod, label2Mask=""):
         xbmcplugin.addSortMethod(int(sys.argv[1]), xbmcplugin.SORTMETHOD_DATEADDED)
         ..
     """
+
+    #vl.maksime
+    params = ['sortMethod={0}'.format(sortMethod)]
+    if label2Mask: params.append('label2Mask={0}'.format(label2Mask))
+    _xbmc.log('xbmcplugin.addSortMethod({0})'.format(', '.join(params)))
+    #
     pass
 
 
@@ -288,6 +318,10 @@ def setSetting(handle, id, value):
         xbmcplugin.setSetting(int(sys.argv[1]), id='username', value='teamxbmc')
         ..
     """
+
+    #vl.maksime
+    _xbmc.log('xbmcplugin.setSetting(id={0}, value={1})'.format(id, value))
+    #
     pass
 
 
@@ -312,6 +346,10 @@ def setContent(handle, content):
         xbmcplugin.setContent(int(sys.argv[1]), 'movies')
         ..
     """
+
+    #vl.maksime
+    _xbmc.log('xbmcplugin.setContent(content={0})'.format(content))
+    #
     pass
 
 
@@ -329,6 +367,10 @@ def setPluginCategory(handle, category):
         xbmcplugin.setPluginCategory(int(sys.argv[1]), 'Comedy')
         ..
     """
+
+    #vl.maksime
+    _xbmc.log('xbmcplugin.setPluginCategory(category={0})'.format(category))
+    #
     pass
 
 
@@ -351,6 +393,15 @@ def setPluginFanart(handle, image=None, color1=None, color2=None, color3=None):
             color2='0xFFFF3300'
             )
     """
+
+    #vl.maksime
+    params = []
+    if image: params.append('image={0}'.format(image))
+    if color1: params.append('color1={0}'.format(color1))
+    if color2: params.append('color2={0}'.format(color2))
+    if color3: params.append('color3={0}'.format(color3))
+    _xbmc.log('xbmcplugin.setPluginFanart({0})'.format(', '.join(params)))
+    #
     pass
 
 
@@ -371,4 +422,7 @@ def setProperty(handle, key, value):
         xbmcplugin.setProperty(int(sys.argv[1]), 'Emulator', 'M.A.M.E.')
         ..
     """
+    #vl.maksime
+    _xbmc.log('xbmcplugin.setProperty(key={0}, value={1})'.format(key, value))
+    #
     pass
