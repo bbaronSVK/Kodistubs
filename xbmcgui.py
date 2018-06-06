@@ -16,6 +16,8 @@ import sys
 import xbmc as _xbmc
 from future.utils import PY26, PY27, PY3
 
+windows_props = {}
+
 if not PY26:
 #
     from typing import Union, List, Dict, Tuple
@@ -3609,8 +3611,9 @@ class Window(object):
         # type: (int) -> None
 
         #vlmaksime
-        self._id = existingWindowId
-        self._properties = {}
+        self._id = str(existingWindowId)
+        if windows_props.get(self._id) is None:
+            windows_props[self._id] = {}
         _xbmc.log('Created {0}'.format(self))
         #
         pass
@@ -3811,7 +3814,7 @@ class Window(object):
 
         #vl.maksime
         _xbmc.log('{0}: setProperty({1}, {2})'.format(self, key, value))
-        self._properties[key] = value
+        windows_props[self._id][key] = value
         #
         pass
     
@@ -3835,7 +3838,7 @@ class Window(object):
         """
 
         #vl.maksime
-        result = self._properties.get(key, '')
+        result = windows_props[self._id].get(key, '')
         _xbmc.log('{0}: getProperty({1}) -> {2}'.format(self, key, result))
         return result
         #
@@ -3862,7 +3865,7 @@ class Window(object):
 
         #vl.maksime
         _xbmc.log('{0}: clearProperty({1}, {2})'.format(self, key))
-        del self._properties[key]
+        del windows_props[self._id][key]
         #
         pass
     
@@ -3878,6 +3881,9 @@ class Window(object):
             win.clearProperties()
             ..
         """
+        #vl.maksime
+        windows_props[self._id] = {}
+        #
         pass
     
     def close(self):
