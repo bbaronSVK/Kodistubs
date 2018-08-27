@@ -52,17 +52,24 @@ def init_addon(path, profile, set_default=False):
     settings_xml = os.path.join(path, 'resources', 'settings.xml')
     if os.path.exists(settings_xml):
         settings_root = etree.parse(settings_xml).getroot()
-        for setting in settings_root.findall('setting'):
-            setting_id = setting.attrib.get('id')
-            if setting_id is not None \
-              and addon_settings.get(setting_id) is None:
-                addon_settings[setting_id] = setting.attrib.get('default', '')
+        for item in settings_root:
+            if item.tag == 'category':
+                for setting in item:
+                    _add_addon_settings(addon_settings, setting)
+            elif item.tag == 'setting':
+                _add_addon_settings(addon_settings, setting)
 
     _addons[addon_info['id']] = {'info': addon_info,
                                  'settings': addon_settings}
     
     if set_default:
         _default_addon = addon_info['id']
+
+def _add_addon_settings(addon_settings, setting):
+    setting_id = setting.attrib.get('id')
+    if setting_id is not None \
+      and addon_settings.get(setting_id) is None:
+        addon_settings[setting_id] = setting.attrib.get('default', '')
 #
 
 class Addon(object):

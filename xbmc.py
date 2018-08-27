@@ -837,6 +837,8 @@ class Keyboard(object):
             text = kb.getText()
         ..
     """
+    #vl.maksime
+    strings = []
     
     def __init__(self, line="", heading="", hidden=False):
         # type: (str_type, str_type, bool) -> None
@@ -919,6 +921,11 @@ class Keyboard(object):
             text = kb.getText()
             ..
         """
+
+        #vl.maksime
+        if Keyboard.strings:
+            return Keyboard.strings.pop(0)
+        #
         return ""
     
     def isConfirmed(self):
@@ -934,6 +941,10 @@ class Keyboard(object):
             if (kb.isConfirmed()):
               ..
         """
+        #vl.maksime
+        if not Keyboard.strings:
+            return False
+        #
         return True
     
 
@@ -2352,6 +2363,7 @@ def _set_log_level(level):
     global _log_level
     _log_level = level
     
+#vl.maksime
 def _parse_po(strings_po):
     ui_strings = {}
 
