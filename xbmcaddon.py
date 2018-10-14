@@ -57,7 +57,7 @@ def init_addon(path, profile, set_default=False):
                 for setting in item:
                     _add_addon_settings(addon_settings, setting)
             elif item.tag == 'setting':
-                _add_addon_settings(addon_settings, setting)
+                _add_addon_settings(addon_settings, item)
 
     _addons[addon_info['id']] = {'info': addon_info,
                                  'settings': addon_settings}
