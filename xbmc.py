@@ -17,8 +17,9 @@ import os
 from future.utils import PY26, PY27, PY3
 
 if not PY26:
+#from typing import Union, List, Tuple
+    from typing import Union, List, Tuple
 #
-    from typing import Union, List, Tuple, Any
 
 __kodistubs__ = True
 
@@ -1145,7 +1146,7 @@ class Player(object):
         pass
     
     def play(self, item="", listitem=None, windowed=False, startpos=-1):
-        # type: (Union[str_type, PlayList], Any, bool, int) -> None
+        # type: (Union[str_type, PlayList], 'xbmcgui.ListItem', bool, int) -> None
         """
         Play a item.
 
@@ -1481,7 +1482,7 @@ class PlayList(object):
         return 0
     
     def add(self, url, listitem=None, index=-1):
-        # type: (str_type, Any, int) -> None
+        # type: (str_type, 'xbmcgui.ListItem', int) -> None
         """
         Adds a new file to the playlist. 
 
