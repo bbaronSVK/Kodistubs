@@ -102,7 +102,6 @@ class Addon(object):
         # type: (str) -> None
 
         #vl.maksime
-        if id: params.append('id={0}'.format(id))
         self._id = id or _default_addon
         
         addon_info = _addons.get(self._id, {})

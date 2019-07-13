@@ -2581,6 +2581,9 @@ class DialogProgress(object):
             if (pDialog.iscanceled()): return
             ..
         """
+        # vl.maksime
+        return False
+        #
         return True
     
 
