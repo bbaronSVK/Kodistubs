@@ -3,10 +3,10 @@
 # to correct code style and docstrings formatting.
 # License: GPL v.3 <https://www.gnu.org/licenses/gpl-3.0.en.html>
 """
-Virtual file system functions on Kodi
+Virtual file system functions on Kodi.
 
 Offers classes and functions offers
-acces to the Virtual File Server (VFS) which you can use to manipulate files
+access to the Virtual File Server (VFS) which you can use to manipulate files
 and folders.
 """
 #vl.maksime
@@ -30,23 +30,22 @@ elif PY27:
 
 class File(object):
     """
-    Kodi's file class
+    Kodi's file class.
+
 
     :param filepath: string Selected file path 
     :param mode: [opt] string Additional mode options (if no mode is supplied,
-        the default is Open for Read).
+    the default is Open for Read).
 
-    =====  ===============
-    Mode   Description    
-    =====  ===============
-    w      Open for write 
-    =====  ===============
+    ===== ===============
+    Mode  Description    
+    ===== ===============
+    w     Open for write 
+    ===== ===============
 
     Example::
 
-        ..
         f = xbmcvfs.File(file, 'w')
-        ..
     """
     
     def __init__(self, filepath, mode=None):
@@ -64,11 +63,9 @@ class File(object):
 
         Example::
 
-            ..
             f = xbmcvfs.File(file)
             b = f.read()
             f.close()
-            ..
         """
         return ""
     
@@ -77,17 +74,15 @@ class File(object):
         """
         Read bytes from file. 
 
-        :param numbytes: How many bytes to read [opt]- if not set it will
-            read the whole file
+        :param numbytes: How many bytes to read [opt]- if not set it will read
+            the whole file
         :return: bytearray
 
         Example::
 
-            ..
             f = xbmcvfs.File(file)
             b = f.read()
             f.close()
-            ..
         """
         return bytearray()
     
@@ -101,11 +96,9 @@ class File(object):
 
         Example::
 
-            ..
             f = xbmcvfs.File(file, 'w')
             result = f.write(buffer)
             f.close()
-            ..
         """
         return True
     
@@ -118,11 +111,9 @@ class File(object):
 
         Example::
 
-            ..
             f = xbmcvfs.File(file)
             s = f.size()
             f.close()
-            ..
         """
         #vl.maksime
         #return 0L
@@ -135,16 +126,14 @@ class File(object):
         Seek to position in file. 
 
         :param seekBytes: position in the file 
-        :param iWhence: where in a file to seek from [0 begining, 1 current ,
-            2 end possition]
+        :param iWhence: where in a file to seek from[0 beginning, 1 current ,
+            2 end position]
 
         Example::
 
-            ..
             f = xbmcvfs.File(file)
             result = f.seek(8129, 0)
             f.close()
-            ..
         """
         #vl.maksime
         #return 0L
@@ -156,24 +145,21 @@ class File(object):
         """
         Close opened file. 
 
-
-
         Example::
 
-            ..
             f = xbmcvfs.File(file)
             f.close()
-            ..
         """
         pass
     
 
 class Stat(object):
     """
-    Get file or file system status
+    Get file or file system status.
 
-    These class return information about a file. Execute (search) permission
-    is required on all of the directories in path that lead to the file.
+
+    These class return information about a file. Execute (search) permission is
+    required on all of the directories in path that lead to the file.
 
     :param path: [string] file or folder
 
@@ -181,10 +167,8 @@ class Stat(object):
 
     Example::
 
-        ..
           st = xbmcvfs.Stat(path)
           modified = st.st_mtime()
-        ..
     """
     
     def __init__(self, path):
@@ -271,9 +255,9 @@ class Stat(object):
         To get total size, in bytes. 
 
         The st_size field gives the size of the file (if it is a regular file
-        or a symbolic link) in bytes. The size of a symbolic link (only on Linux
-        and Mac OS X) is the length of the pathname it contains, without
-        a terminating null byte.
+        or a symbolic link) in bytes. The size of a symbolic link
+        (only on Linux and Mac OS X) is the length of the pathname it contains,
+        without a terminating null byte.
 
         :return: st_size 
         """
@@ -282,7 +266,7 @@ class Stat(object):
         return 0
         #
     
-    def atime(self):
+    def st_atime(self):
         # type: () -> long
         """
         To get time of last access. 
@@ -294,7 +278,7 @@ class Stat(object):
         return 0
         #
     
-    def mtime(self):
+    def st_mtime(self):
         # type: () -> long
         """
         To get time of last modification. 
@@ -306,7 +290,7 @@ class Stat(object):
         return 0
         #
     
-    def ctime(self):
+    def st_ctime(self):
         # type: () -> long
         """
         To get time of last status change. 
@@ -318,8 +302,7 @@ class Stat(object):
         return 0
         #
 
-
-def copy(strSource, strDestnation):
+def copy(strSource, strDestination):
     # type: (str_type, str_type) -> bool
     """
     Copy file to destination, returns true/false. 
@@ -330,9 +313,7 @@ def copy(strSource, strDestnation):
 
     Example::
 
-        ..
         success = xbmcvfs.copy(source, destination)
-        ..
     """
     return True
 
@@ -347,9 +328,7 @@ def delete(file):
 
     Example::
 
-        ..
         xbmcvfs.delete(file)
-        ..
     """
     return True
 
@@ -363,15 +342,13 @@ def rename(file, newFile):
     :param newFileName: New filename, including the full path 
     :return: True if successed
 
-    Moving files between different filesystem (eg. local to nfs://)
-    is not possible on all platforms. You may have to do it manually by using
-    the copy and deleteFile functions.
+    Moving files between different filesystem (eg. local to nfs://) is not
+    possible on all platforms. You may have to do it manually by using the copy
+    and deleteFile functions.
 
     Example::
 
-        ..
         success = xbmcvfs.rename(file,newFileName)
-        ..
     """
     return True
 
@@ -379,16 +356,14 @@ def rename(file, newFile):
 def exists(path):
     # type: (str_type) -> bool
     """
-    Check for a file or folder existance
+    Check for a file or folder existence
 
     :param path: File or folder (folder must end with slash or backslash) 
     :return: True if successed
 
     Example::
 
-        ..
         success = xbmcvfs.exists(path)
-        ..
     """
     return True
 
@@ -403,9 +378,7 @@ def mkdir(path):
 
     Example::
 
-        ..
         success = xbmcvfs.mkdir(path)
-        ..
     """
     return True
 
@@ -422,9 +395,7 @@ def mkdirs(path):
 
     Example::
 
-        ..
         success = xbmcvfs.mkdirs(path)
-        ..
     """
     return True
 
@@ -439,9 +410,7 @@ def rmdir(path, force=False):
 
     Example::
 
-        ..
         success = xbmcvfs.rmdir(path)
-        ..
     """
     return True
 
@@ -456,8 +425,6 @@ def listdir(path):
 
     Example::
 
-        ..
         dirs, files = xbmcvfs.listdir(path)
-        ..
     """
     return [""], [""]

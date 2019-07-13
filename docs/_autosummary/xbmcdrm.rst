@@ -1,14 +1,14 @@
-xbmcaddon
-=========
+xbmcdrm
+=======
 
-.. automodule:: xbmcaddon
+.. automodule:: xbmcdrm
 
   .. rubric:: Classes
 
   .. autosummary::
 
     
-    Addon
+    CryptoSession
 
 
   .. rubric:: Functions
