@@ -4500,7 +4500,10 @@ def getCurrentWindowDialogId():
 
         wid = xbmcgui.getCurrentWindowDialogId()
     """
-    return 0L
+    #vl.maksime
+    #return 0L
+    return 0
+    #
 
 
 def getScreenHeight():
@@ -4510,7 +4513,10 @@ def getScreenHeight():
 
     :return: Screen height   New function added. 
     """
-    return 0L
+    #vl.maksime
+    #return 0L
+    return 0
+    #
 
 
 def getScreenWidth():

@@ -9,7 +9,7 @@ Kodi's addon class
 from __future__ import unicode_literals
 import xbmc as _xbmc
 import os
-from future.utils import PY26, PY27, PY3
+from future.utils import PY26, PY27, PY2, PY3
 import xml.etree.cElementTree as etree
 try:
     etree.fromstring('<?xml version="1.0"?><foo><bar/></foo>')
@@ -33,6 +33,17 @@ elif PY27:
 _addons = {}
 _default_addon = ''
 
+
+def py2_decode(s, encoding='utf-8'):
+    """
+    Decode Python 2 ``str`` to ``unicode``
+
+    In Python 3 the string is not changed.
+    """
+    if PY2 and isinstance(s, bytes):
+        s = s.decode(encoding)
+    return s
+
 def init_addon(path, profile, set_default=False):
     global _default_addon
 
@@ -43,10 +54,10 @@ def init_addon(path, profile, set_default=False):
     addon_xml = os.path.join(path, 'addon.xml')
     addon_root = etree.parse(addon_xml).getroot()
 
-    addon_info['id'] = addon_root.attrib['id']
-    addon_info['version'] = addon_root.attrib['version']
-    addon_info['name'] = addon_root.attrib['name']
-    addon_info['author'] = addon_root.attrib['provider-name']
+    addon_info['id'] = py2_decode(addon_root.attrib['id'])
+    addon_info['version'] = py2_decode(addon_root.attrib['version'])
+    addon_info['name'] = py2_decode(addon_root.attrib['name'])
+    addon_info['author'] = py2_decode(addon_root.attrib['provider-name'])
 
     addon_settings = {}
     settings_xml = os.path.join(path, 'resources', 'settings.xml')
@@ -66,10 +77,10 @@ def init_addon(path, profile, set_default=False):
         _default_addon = addon_info['id']
 
 def _add_addon_settings(addon_settings, setting):
-    setting_id = setting.attrib.get('id')
+    setting_id = py2_decode(setting.attrib.get('id'))
     if setting_id is not None \
       and addon_settings.get(setting_id) is None:
-        addon_settings[setting_id] = setting.attrib.get('default', '')
+        addon_settings[setting_id] = py2_decode(setting.attrib.get('default', ''))
 #
 
 class Addon(object):
