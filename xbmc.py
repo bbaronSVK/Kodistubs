@@ -11,10 +11,11 @@ the media player (such as starting a new song). You can also find system
 information using the functions available in this library.
 """
 #vl.maksime
-from __future__ import unicode_literals
+from __future__ import unicode_literals, print_function
 import re
 import os
-from future.utils import PY26, PY27, PY3
+import sys
+from future.utils import PY2, PY26, PY27, PY3 
 
 if not PY26:
 #from typing import Union, List, Tuple
@@ -1897,7 +1898,11 @@ def log(msg, level=LOGDEBUG):
         _levels = ['DEBUG', 'INFO', 'NOTICE', 'WARNING', 'ERROR', 'SEVERE', 'FATAL', 'NONE']
         _level = _levels[level]
         
-        print('{0}: {1}'.format(_level, msg))
+        try:
+            print('{0}: {1}'.format(_level, py2_decode(msg)))
+        except UnicodeEncodeError as e:
+            print(e)
+            print('sys.stdout.encoding = {0}'.format(sys.stdout.encoding))
     #
     pass
 
@@ -2127,6 +2132,10 @@ def getInfoLabel(cLine):
 
         label = xbmc.getInfoLabel('Weather.Conditions')
     """
+    #vl.maksime
+    if cLine == 'System.BuildVersion':
+        return '18.3 Git:20190712-2e454a77bd'
+    #
     return ""
 
 
@@ -2452,6 +2461,9 @@ def getUserAgent():
     example output:
     ``'Kodi/17.0-ALPHA1 (X11; Linux x86_64) Ubuntu/15.10 App_Bitness/64 Version/17.0-ALPHA1-Git:2015-12-23-5770d28'``
     """
+    #vl.maksime
+    return 'Kodi/18.3 (Windows NT 10.0.17763; Win64; x64) App_Bitness/64 Version/18.3-Git:20190712-2e454a77bd'
+    #
     return ""
 
 
@@ -2506,3 +2518,25 @@ def _parse_po(strings_po):
             ui_strings[string_id] = re.search(r'"(.*?)"', string, re.U).group(1)
             string_id = None
     return ui_strings
+
+#vl.maksime
+def py2_encode(s, encoding='utf-8'):
+    """
+    Encode Python 2 ``unicode`` to ``str``
+
+    In Python 3 the string is not changed.
+    """
+    if PY2 and isinstance(s, str):
+        s = s.encode(encoding)
+    return s
+
+#vl.maksime
+def py2_decode(s, encoding='utf-8'):
+    """
+    Decode Python 2 ``str`` to ``unicode``
+
+    In Python 3 the string is not changed.
+    """
+    if PY2 and isinstance(s, bytes):
+        s = s.decode(encoding)
+    return s
