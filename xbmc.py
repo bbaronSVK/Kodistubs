@@ -1993,6 +1993,9 @@ def sleep(timemillis):
 
         xbmc.sleep(2000) # sleeps for 2 seconds
     """
+    #vl.maksime
+    log('xbmc.sleep(timemillis={0})'.format(timemillis))
+    #
     pass
 
 

@@ -14,6 +14,7 @@ from __future__ import unicode_literals
 import sys
 #vl.maksime
 import xbmc as _xbmc
+from xbmc import py2_decode
 from future.utils import PY26, PY27, PY3
 
 windows_props = {}
@@ -2522,6 +2523,22 @@ class DialogProgress(object):
             pDialog = xbmcgui.DialogProgress()
             pDialog.create('Kodi', 'Initializing script...')
         """
+        #vl.maksime
+        self._percent = 0
+        self._heading = heading
+        self._line1 = line1
+        self._line2 = line2
+        self._line3 = line3
+        
+        self._count = 0
+        
+        params = []
+        if heading: params.append('heading={0}'.format(heading))
+        if line1: params.append('line1={0}'.format(line1))
+        if line2: params.append('line2={0}'.format(line2))
+        if line3: params.append('line3={0}'.format(line3))
+        _xbmc.log('DialogProgress.create({0})'.format(', '.join(params)))
+        #
         pass
     
     def update(self, percent, line1="", line2="", line3=""):
@@ -2541,6 +2558,22 @@ class DialogProgress(object):
 
             pDialog.update(25, 'Importing modules...')
         """
+        #vl.maksime
+        params = []
+        if percent:
+            self._percent = percent
+            params.append('percent={0}'.format(percent))
+        if line1:
+            self._line1 = line1
+            params.append('line1={0}'.format(line1))
+        if line2:
+            self._line2 = line2
+            params.append('line2={0}'.format(line2))
+        if line3:
+            self._line3 = line3
+            params.append('line3={0}'.format(line3))
+        _xbmc.log('DialogProgress.update({0})'.format(', '.join(params)))
+        #
         pass
     
     def close(self):
@@ -2552,6 +2585,9 @@ class DialogProgress(object):
 
             pDialog.close()
         """
+        #vl.maksime
+        _xbmc.log('DialogProgress.close()')
+        #
         pass
     
     def iscanceled(self):
@@ -2566,7 +2602,9 @@ class DialogProgress(object):
             if (pDialog.iscanceled()): return
         """
         # vl.maksime
-        return False
+        if self._count < 1:
+            self._count += 1
+            return False
         #
         return True
     
@@ -2736,7 +2774,7 @@ class ListItem(object):
         self._properties = {}
         
         params = []
-        if label: params.append('label={0}'.format(label))
+        if label: params.append('label={0}'.format(py2_decode(label)))
         if label2: params.append('label2={0}'.format(label2))
         if iconImage: params.append('iconImage={0}'.format(iconImage))
         if thumbnailImage: params.append('thumbnailImage={0}'.format(thumbnailImage))
@@ -3575,7 +3613,7 @@ class ListItem(object):
 
     #vl.maksime
     def __str__(self):
-        return 'ListItem(label={0})'.format(self._label)
+        return 'ListItem(label={0})'.format(py2_decode(self._label))
     
 
 class Action(object):
