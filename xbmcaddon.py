@@ -164,7 +164,7 @@ class Addon(object):
 
        #vl.maksime
         result = self._settings.get(id, '')
-        _xbmc.log('{0}: getSetting(id={1}) -> {2}'.format(self, id, result))
+        _xbmc.log('{0}: getSetting(id={1}) -> {2}'.format(self, id, py2_decode(result)))
         return result
         #
         return ""
@@ -234,7 +234,7 @@ class Addon(object):
 
         #vl.maksime
         result = self._settings.get(id, '')
-        _xbmc.log('{0}: getSetting(id={1}) -> {2}'.format(self, id, result))
+        _xbmc.log('{0}: getSettingString(id={1}) -> {2}'.format(self, id, result))
         return result
         #
         return ""
@@ -257,7 +257,7 @@ class Addon(object):
 
         #vl.maksime
         self._settings[id] = value
-        _xbmc.log('{0}: setSetting(id={1}, value={2})'.format(self, id, value))
+        _xbmc.log('{0}: setSetting(id={1}, value={2})'.format(self, id, py2_decode(value)))
         #
         pass
     
