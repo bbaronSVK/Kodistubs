@@ -2059,6 +2059,10 @@ def getLanguage(format=ENGLISH_NAME, region=False):
 
         language = xbmc.getLanguage(xbmc.ENGLISH_NAME)
     """
+    #vl.maksime
+    if format == ENGLISH_NAME:
+        return 'English'
+    #
     return ""
 
 
@@ -2350,6 +2354,19 @@ def getRegion(id):
 
         date_long_format = xbmc.getRegion('datelong')
     """
+    #vl.maksime
+    if id == 'dateshort':
+        return '%d.%m.%Y'
+    elif id == 'datelong':
+        return '%A, %d %B %Y \'y.\''
+    elif id == 'time':
+        return '%H:%M:%S'
+    elif id == 'meridiem':
+        return '//'
+    elif id == 'tempunit':
+        return 'K'
+    elif id == 'speedunit':
+        return 'm/s'
     return ""
 
 
