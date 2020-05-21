@@ -1016,6 +1016,10 @@ class Monitor(object):
     
     def __init__(self):
         # type: () -> None
+
+        #vl.maksime
+        self._aborts = [False]
+        #
         pass
     
     def onSettingsChanged(self):
@@ -1139,6 +1143,9 @@ class Monitor(object):
         .. warning::
             Deprecated. Use **waitForAbort()** to be notified about this event.
         """
+        #vl.maksime
+        return True
+        #
         pass
     
     def onNotification(self, sender, method, data):
@@ -1181,6 +1188,11 @@ class Monitor(object):
 
         New function added. 
         """
+        #vl.maksime
+        if self._aborts:
+            result = self._aborts.pop()
+            return result
+        #
         return True
     
 
