@@ -2544,11 +2544,14 @@ def _parse_po(strings_po):
     
     string_id = None
     for string in strings:
-        if string_id is None and 'msgctxt' in string:
-            string_id = int(re.search(r'"#(\d+)"', string, re.U).group(1))
-        elif string_id is not None and 'msgid' in string:
-            ui_strings[string_id] = re.search(r'"(.*?)"', string, re.U).group(1)
-            string_id = None
+        try:
+            if string_id is None and 'msgctxt' in string:
+                string_id = int(re.search(r'"#(\d+)"', string, re.U).group(1))
+            elif string_id is not None and 'msgid' in string:
+                ui_strings[string_id] = re.search(r'"(.*?)"', string, re.U).group(1)
+                string_id = None
+        except:
+            pass
     return ui_strings
 
 #vl.maksime

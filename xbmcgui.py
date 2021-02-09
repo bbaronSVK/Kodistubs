@@ -3972,8 +3972,9 @@ class Window(object):
         """
 
         #vl.maksime
-        _xbmc.log('{0}: clearProperty({1}, {2})'.format(self, key))
-        del windows_props[self._id][key]
+        _xbmc.log('{0}: clearProperty({1})'.format(self, key))
+        if key in windows_props[self._id]:
+            del windows_props[self._id][key]
         #
         pass
     
