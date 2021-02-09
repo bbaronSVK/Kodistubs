@@ -2843,7 +2843,7 @@ class ListItem(object):
         """
 
         #vl.maksime
-        _xbmc.log('{0}: setLabel2(label2={1})'.format(self, label2))
+        _xbmc.log('{0}: setLabel2(label={1})'.format(self, label))
         #
         pass
     
